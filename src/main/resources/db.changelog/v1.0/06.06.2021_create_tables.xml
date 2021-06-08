@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd"
+        logicalFilePath="master-changelog">
+
+    <changeSet id="06.06.2021_create_table_orders" author="mderzhavin">
+        <createTable tableName="orders">
+            <column name="id" type="BIGSERIAL" autoIncrement="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="06.06.2021_create_table_users" author="mderzhavin">
+        <createTable tableName="users">
+            <column name="id" type="BIGSERIAL" autoIncrement="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet author="mderzhavin" id="createPK:public:pk_orders">
+        <addPrimaryKey columnNames="id" constraintName="pk_orders" schemaName="public" tableName="orders"/>
+    </changeSet>
+
+    <changeSet author="mderzhavin" id="createPK:public:pk_users">
+        <addPrimaryKey columnNames="id" constraintName="pk_users" schemaName="public" tableName="users"/>
+    </changeSet>
+
+
+
+    <changeSet author="mderzhavin" id="createUQ:piblic:uq_users">
+        <addUniqueConstraint columnNames="username" constraintName="uq_users_username" schemaName="public"
+                             tableName="users"/>
+    </changeSet>
+
+
+
+    <changeSet author="mderzhavin" id="createFK:public:fk_orders_user_id_user_id">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableSchemaName="public" baseTableName="orders"
+                                 constraintName="fk_orders_user_id_user_id" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableSchemaName="public"
+                                 referencedTableName="users"/>
+    </changeSet>
+</databaseChangeLog>
+
